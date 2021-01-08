@@ -11,7 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    
+
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
@@ -24,6 +24,20 @@
                         {{ config('app.name', 'Laravel') }}
                     </a>
                 </div>
+
+                {{-- ADD THIS NAVIGATION OPTION --}}
+                @auth
+                    <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+                        <div class="text-sm lg:flex-grow ml-3">
+                            <a href="{{ route("empresas.index") }}" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+                                {{ __("Empresas") }}
+                            </a>
+                        </div>
+                    </div>
+                @endauth
+                {{-- END NAVIGATION OPTION --}}
+
+
                 <nav class="space-x-4 text-gray-300 text-sm sm:text-base">
                     @guest
                         <a class="no-underline hover:underline" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -45,7 +59,23 @@
             </div>
         </header>
 
-        @yield('content')
+        @if(session("success"))
+            <div class="container mx-auto mt-5">
+                <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
+                    <div class="flex">
+                        <div class="py-1"><svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
+                        <div>
+                            <p class="font-bold">{{ __("Nuevo mensaje") }}</p>
+                            <p class="text-sm">{{ session("success") }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        <div class="container mx-auto px-4">
+            @yield('content')
+        </div>
     </div>
 </body>
 </html>
